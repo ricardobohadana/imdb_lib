@@ -9,6 +9,10 @@ class IMDBHTTPSession():
         self.SESSION = requests.Session()
 
 
+    def close_session(self) -> None:
+        self.SESSION.close()
+
+
     def __get_data__(self, url: str) -> pd.DataFrame:
         response = self.SESSION.get(url)
         html = BeautifulSoup(response.text, 'html.parser')
@@ -134,8 +138,4 @@ class IMDBHTTPSession():
         ids = [t.a['href'].split('/')[2] for t in titles_tag]
         
         return pd.DataFrame({'Id': ids, 'Title': titles})
-         
 
-s = IMDBHTTPSession()
-s.searchTitle('Homem Aranha')
-print('done')
