@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import quote
 
-class IMDBHTTPSession():
+class httpIMDB():
 
     def __init__(self) -> None:
         self.SESSION = requests.Session()

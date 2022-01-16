@@ -1,13 +1,13 @@
 from sqlite3 import DatabaseError
 import unittest
-from imdb_lib import IMDBHTTPSession
+from imdb_lib import httpIMDB
 from unittest import TestCase
 import pandas as pd
 
 class TestClass(TestCase):
     
     def setUp(self) -> None:
-        self.session = IMDBHTTPSession()
+        self.session = httpIMDB()
         self.df = pd.DataFrame()
         self.Id = 'tt0993846'
 
