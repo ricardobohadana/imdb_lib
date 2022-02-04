@@ -120,17 +120,25 @@ class httpIMDB():
         
         # processing some times with ridiculous lengths, see https://www.imdb.com/title/tt3854496
         # this would be set to 59, except some films report a 60 minute runtime
-        if int(minutes[1]) >60:
-            # commas present an issue for ints, _ retained for readability
-            if int(minutes[1])>999:
-                max_minutes = minutes[1].replace(',', "_")
-            else:
-                max_minutes = minutes[1]
-            sum_hours = int(max_minutes) // 60
+        
+        # catching cases where minutes is None
+        try:
+            sum_hours = 0
+            max_minutes = int(minutes[1])
+            if int(minutes[1]) > 60:
+                # commas present an issue for ints, _ retained for readability
+                if int(minutes[1]) > 999:
+                    max_minutes = minutes[1].replace(',', "_")
+                else:
+                    max_minutes = minutes[1]
+                sum_hours = int(max_minutes) // 60
+
+            # this is valid for any case (minutes is greater or less than 60)
+            # 22 % 60 = 22
             minutes = int(max_minutes) % 60
             hours = int(hours[1].replace(',', "_")) + sum_hours
-        else:
-            minutes = int(minutes[1])
+        except TypeError:
+            minutes = int(0)
             # couldn't find anything with over 720 hours of content, but in any case...
             hours = int(hours[1].replace(',', "_"))
         
@@ -144,12 +152,11 @@ class httpIMDB():
             'sinapse':sinapse,
             'rating': str(rating),
             'popularity': str(popularity),
-            'runtime' : runtime_str, # pulled directly from html string on page
-            'duration' : duration, # calculated above
-            # 'stars': stars,
-            'genres': genres,
-            'types': li_types,
-            'top_cast': pd.DataFrame(top_cast)
+            'runtime' : [runtime_str], # pulled directly from html string on page
+            'duration' : [duration], # calculated above
+            'genres': [genres],
+            'types': [li_types],
+            'top_cast': [top_cast]
         }
 
         return pd.DataFrame(output_dict)
@@ -166,4 +173,3 @@ class httpIMDB():
         ids = [t.a['href'].split('/')[2] for t in titles_tag]
         
         return pd.DataFrame({'Id': ids, 'Title': titles})
-
