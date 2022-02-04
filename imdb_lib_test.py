@@ -15,6 +15,7 @@ class TestClass(TestCase):
         self.assertIsNotNone(self.df)
         self.assertFalse(self.df.empty)
         self.assertFalse(self.df.isnull().values.any())
+        self.assertEqual(sum(self.df.isna().sum().to_list()), 0)
         self.session.close_session()
         self.assertIsNotNone(self.Id)
 
@@ -44,6 +45,9 @@ class TestClass(TestCase):
 
     def test_getTitleDetails(self):
         self.df = self.session.getTitleDetails(self.Id)
+        
+        cols = self.df.columns.to_list()
+        self.assertEqual(cols, 10)
 
 
     def test_searchTitle(self):
