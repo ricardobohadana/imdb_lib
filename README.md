@@ -28,7 +28,7 @@ Returns a pandas dataframe with 250 rows and the following columns: `Id,title, p
 Scrape the given title id for details
 
 
-Returns a pandas dataframe with one row and the following columns: `title, poster, sinapse, rating, popularity, genres, types, top_cast`
+Returns a pandas dataframe with one row and the following columns: `title, poster, sinapse, rating, popularity, genres, types, top_cast, runtime, duration`
 
 #
 ### `httpIMDB.searchTitle(title)`
